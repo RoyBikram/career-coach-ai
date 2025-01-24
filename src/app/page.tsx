@@ -15,6 +15,8 @@ export default function Home() {
   const [skills, setSkills] = useState<string[]>([]);
   const [qualifications, setQualifications] = useState<string[]>([]);
   const [result, setResult] = useState<GroqResponse[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  
   const groq = new Groq({
     apiKey: process.env.NEXT_PUBLIC_LLAMA,
     dangerouslyAllowBrowser: true,
@@ -28,6 +30,7 @@ export default function Home() {
       toast.error("Add all the field.");
       return;
     }
+    setLoading(true);
 
     const content = `Assist me like a career coach I have interest on this field ${interests.join(
       ","
@@ -58,8 +61,8 @@ export default function Home() {
     // console.log(result);
     if (result) {
       setResult(JSON.parse(result).careers as GroqResponse[]);
+      setLoading(false);
     }
-    result && console.log(JSON.parse(result));
   };
   return (
     <Box
@@ -135,7 +138,7 @@ export default function Home() {
           }}
           endIcon={<AutoAwesomeIcon sx={{ mr: "4px", ml: "2px" }} />}
         >
-          Find the perfect career
+          {loading ? "Generating" : "Find the perfect career"}
         </Button>
       </Box>
       {result && (
