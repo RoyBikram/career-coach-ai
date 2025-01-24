@@ -4,7 +4,9 @@ import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import { TextfieldWithTooltip } from "./component/TextfieldWithTooltip";
 
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import Groq from "groq-sdk";
+import toast from "react-hot-toast";
 import GroqResponse from "./Interface/GroqResponse";
 import CareerCard from "./component/CareerCard";
 
@@ -18,6 +20,15 @@ export default function Home() {
     dangerouslyAllowBrowser: true,
   });
   const handleGenerate = async () => {
+    if (
+      interests.length === 0 ||
+      skills.length === 0 ||
+      qualifications.length === 0
+    ) {
+      toast.error("Add all the field.");
+      return;
+    }
+
     const content = `Assist me like a career coach I have interest on this field ${interests.join(
       ","
     )},My skills are ${skills.join(
@@ -51,10 +62,16 @@ export default function Home() {
     result && console.log(JSON.parse(result));
   };
   return (
-    <Box sx={{ maxWidth: "800px", mx: "auto" }}>
-      <Box sx={{ mt: "130px" }}>
+    <Box
+      sx={{ maxWidth: { xs: "330px", md: "450px" }, mx: "auto", pb: "50px" }}
+    >
+      <Box sx={{ mt: { xs: "90px", md: "130px" } }}>
         <Typography
-          sx={{ color: "#e3e3e3", fontSize: "40px", textAlign: "center" }}
+          sx={{
+            color: "#e3e3e3",
+            fontSize: { xs: "30px", md: "40px", lineHeight: "40px" },
+            textAlign: "center",
+          }}
         >
           Choose your best career.
         </Typography>
@@ -77,7 +94,7 @@ export default function Home() {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          padding: 5,
+          padding: { xs: 3, md: 5 },
           borderRadius: 2,
           mt: "50px",
         }}
@@ -105,19 +122,20 @@ export default function Home() {
         />
         <Button
           onClick={handleGenerate}
-          variant='contained'
+          variant='outlined'
           sx={{
             textTransform: "capitalize",
             fontSize: "16px",
-            borderRadius: "20px",
+            borderRadius: "30px",
             width: "fit-content",
             mx: "auto",
             mt: 2,
             color: "#fff",
-            backgroundColor: "#6573a7",
+            border: "2px solid #b466ff",
           }}
+          endIcon={<AutoAwesomeIcon sx={{ mr: "4px", ml: "2px" }} />}
         >
-          Find the perfect career for me
+          Find the perfect career
         </Button>
       </Box>
       {result && (

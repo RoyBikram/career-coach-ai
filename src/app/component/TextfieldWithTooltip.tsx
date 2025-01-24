@@ -45,7 +45,7 @@ export const TextfieldWithTooltip = ({
             required
             placeholder={placeholder}
             sx={{
-              width: "300px",
+              width: { xs: "220px", md: "300px" },
               border: "2px solid #3c3c3c4a",
               borderRadius: "8px",
 
@@ -66,16 +66,24 @@ export const TextfieldWithTooltip = ({
           </IconButton>
         </Box>
       </form>
-      {value.map((each, index) => (
-        <Chip
-          label={each}
-          key={index}
-          variant='outlined'
-          onDelete={() => {
-            handleChipDelete(index);
-          }}
-        />
-      ))}
+      <Box sx={{ display: "flex", gap: 1, mt: 2, flexWrap: "wrap" }}>
+        {value.map((each, index) => (
+          <Chip
+            sx={{
+              color: "#fff",
+              backgroundColor: "#3c3c3c",
+              "& .MuiChip-deleteIcon": {
+                color: "rgb(255 255 255 / 40%) !important",
+              },
+            }}
+            label={each}
+            key={index}
+            onDelete={() => {
+              handleChipDelete(index);
+            }}
+          />
+        ))}
+      </Box>
       <Toaster />
     </Box>
   );
